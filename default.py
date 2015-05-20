@@ -53,7 +53,7 @@ class Main:
     if script_xbmc_starts:
       log('Going to execute script = "' + script_xbmc_starts + '"')
       try:
-          subprocess.call(script_xbmc_starts)
+          subprocess.call([script_xbmc_starts, 'KODI_START'])
       except:
           log('Error executing script when xbmc starts')
     self._daemon()
@@ -104,7 +104,7 @@ class Main:
           log('XBMC is idle')
           log('Going to execute script = "' + script_idle + '"')
           try:
-              subprocess.call(script_idle)
+              subprocess.call([script_idle, 'KODI_IDLE'])
           except:
               log('ERROR executing script when xbmc goes idle')
       xbmc.sleep(4000)
@@ -126,7 +126,7 @@ class MyMonitor(xbmc.Monitor):
     if script_screensaver_starts:
       log('Going to execute script = "' + script_screensaver_starts + '"')
       try:
-          subprocess.call([script_screensaver_starts,self.get_player_status()])
+          subprocess.call([script_screensaver_starts, 'KODI_SCREENSAVER_START', self.get_player_status()])
       except:
           log('ERROR executing script when screensaver starts')
 
@@ -136,7 +136,7 @@ class MyMonitor(xbmc.Monitor):
     if script_screensaver_stops:
       log('Going to execute script = "' + script_screensaver_stops + '"')
       try:
-          subprocess.call(script_screensaver_stops)
+          subprocess.call([script_screensaver_stops, 'KODI_SCREENSAVER_STOP'])
       except:
           log('ERROR executing script when screensaver stops')
 
@@ -146,7 +146,7 @@ class MyMonitor(xbmc.Monitor):
     if script_db_update:
       log('Going to execute script = "' + script_db_update + '"')
       try:
-          subprocess.call([script_db_update,db])
+          subprocess.call([script_db_update, 'KODI_DB_UPDATED', db])
       except:
           log('ERROR executing script when database updates')
 
@@ -169,7 +169,7 @@ class MyPlayer(xbmc.Player):
   def playing_type(self):
     type = 'unkown'
     if (self.isPlayingAudio()):
-      type = "music"  
+      type = "music"
     else:
       if xbmc.getCondVisibility('VideoPlayer.Content(movies)'):
         filename = ''
@@ -205,7 +205,7 @@ class MyPlayer(xbmc.Player):
     if script_player_starts:
       log('Going to execute script = "' + script_player_starts + '"')
       try:
-          subprocess.call([script_player_starts,self.playing_type()])
+          subprocess.call([script_player_starts, 'KODI_PLAYER_START', self.playing_type()])
       except:
           log('ERROR executing script when player starts')
 
@@ -218,7 +218,7 @@ class MyPlayer(xbmc.Player):
     if script_player_stops:
       log('Going to execute script = "' + script_player_stops + '"')
       try:
-          subprocess.call([script_player_stops,self.playing_type()])
+          subprocess.call([script_player_stops, 'KODI_PLAYER_STOP', self.playing_type()])
       except:
           log('ERROR executing script when player stops')
 
@@ -228,7 +228,7 @@ class MyPlayer(xbmc.Player):
     if script_player_pauses:
       log('Going to execute script = "' + script_player_pauses + '"')
       try:
-          subprocess.call([script_player_pauses,self.playing_type()])
+          subprocess.call([script_player_pauses,'KODI_PLAYER_PAUSE', self.playing_type()])
       except:
           log('ERROR executing script when player pauses')
 
@@ -238,7 +238,7 @@ class MyPlayer(xbmc.Player):
     if script_player_resumes:
       log('Going to execute script = "' + script_player_resumes + '"')
       try:
-          subprocess.call([script_player_resumes,self.playing_type()])
+          subprocess.call([script_player_resumes, 'KODI_PLAYER_RESUME', self.playing_type()])
       except:
           log('ERROR executing script when player resumes')
 
